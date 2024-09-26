@@ -6,7 +6,6 @@ import { Title } from './title';
 import { Button } from '../ui';
 
 interface Props {
-  id: number;
   name: string;
   price: number;
   imageUrl: string;
@@ -14,7 +13,6 @@ interface Props {
 }
 
 export const ProductCard: FC<Props> = ({
-  id,
   name,
   price,
   imageUrl,

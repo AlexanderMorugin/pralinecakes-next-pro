@@ -1,6 +1,8 @@
 Стек
 
 - Next.js
-- Shadcn/ui
-- Tailwind
-- Lucide Icons
+- Shadcn/ui (библиотека готовых ui компонентов)
+- Tailwind (язык стилей)
+- Lucide Icons (набор иконок)
+- React Use (библиотека хуков из которой мы используем хук useIntersection, он дает нам возможность связи панели TopBar с компонентом ProductsGroupList, который отрисовывает продукцию)
+- Zustand (библиотека управления состоянием, типа Redux)

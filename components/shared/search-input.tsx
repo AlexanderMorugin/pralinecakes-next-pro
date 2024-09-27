@@ -1,8 +1,11 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { Api } from '@/services/api-client';
+import { Product } from '@prisma/client';
 import { Search } from 'lucide-react';
-import { useRef, useState, type FC } from 'react';
+import Link from 'next/link';
+import { useEffect, useRef, useState, type FC } from 'react';
 import { useClickAway } from 'react-use';
 
 interface Props {
@@ -11,11 +14,18 @@ interface Props {
 
 export const SearchInput: FC<Props> = ({ className }) => {
   const [focused, setFocused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState<Product[]>([]);
+
   const ref = useRef(null);
 
   useClickAway(ref, () => {
     setFocused(false);
   });
+
+  useEffect(() => {
+    Api.products.search(searchQuery).then((items) => setProducts(items));
+  }, [searchQuery]);
 
   return (
     <>
@@ -32,8 +42,10 @@ export const SearchInput: FC<Props> = ({ className }) => {
         <Search className='absolute top-1/2 translate-y-[-50%] left-3 h-5 text-gray-400' />
         <input
           type='text'
+          value={searchQuery}
           placeholder='Найти торт...'
           onFocus={() => setFocused(true)}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className='rounded-2xl outline-none w-full bg-gray-100 pl-11'
         />
         <div
@@ -42,7 +54,20 @@ export const SearchInput: FC<Props> = ({ className }) => {
             focused && 'visible opacity-100 top-12'
           )}
         >
-          123123123213
+          {products.map((product) => (
+            <Link
+              key={product.id}
+              href={`products/${product.id}`}
+              className='flex items-center w-full gap-3 px-3 py-2 hover:bg-primary/10'
+            >
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                className='rounded-sm w-8 h-8'
+              />
+              <span>{product.name}</span>
+            </Link>
+          ))}
         </div>
       </div>
     </>

@@ -21,6 +21,7 @@ model User {
   cart             Cart?
   orders           Order[]
   verificationCode VerificationCode?
+  verified         DateTime?
   provider         String?
   providerId       String?
 

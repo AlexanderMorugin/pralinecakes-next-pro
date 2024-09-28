@@ -1,11 +1,18 @@
 'use client';
 
-import { useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { Title } from './title';
 
-import { FilterCheckbox, FilterCheckboxGroup, RangeSlider } from '.';
+import {
+  // FilterCheckbox,
+  FilterCheckboxGroup,
+  RangeSlider,
+} from '.';
 import { Input } from '../ui';
 import { useFilterIngredients } from '@/hooks/useFilterIngredients';
+import { useSet } from 'react-use';
+import qs from 'qs';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   className?: string;
@@ -17,19 +24,39 @@ interface PriceProps {
 }
 
 export const Filters: FC<Props> = ({ className }) => {
-  const { ingredients, isLoading, onAddId, selectedIds } =
+  const router = useRouter();
+  const { ingredients, isLoading, onAddId, selectedIngredients } =
     useFilterIngredients();
-  const [price, setPrice] = useState<PriceProps>({
+
+  const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>([]));
+  const [productTypes, { toggle: toggleProductTypes }] = useSet(
+    new Set<string>([])
+  );
+
+  const [prices, setPrice] = useState<PriceProps>({
     priceFrom: 0,
     priceTo: 3000,
   });
 
   const updatePrice = (name: keyof PriceProps, value: number) => {
     setPrice({
-      ...price,
+      ...prices,
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    const filters = {
+      ...prices,
+      productTypes: Array.from(productTypes),
+      sizes: Array.from(sizes),
+      selectedIngredients: Array.from(selectedIngredients),
+    };
+
+    const query = qs.stringify(filters, { arrayFormat: 'comma' });
+
+    router.push(`?${query}`);
+  }, [prices, productTypes, sizes, selectedIngredients]);
 
   const items = ingredients.map((item) => ({
     value: String(item.id),
@@ -41,10 +68,35 @@ export const Filters: FC<Props> = ({ className }) => {
       <Title className='mb-5 font-bold' text='Фильтрация' size='sm' />
 
       {/** Верхние чекбоксы */}
-      <div className='flex flex-col gap-4'>
+      <FilterCheckboxGroup
+        title='Тип теста'
+        name='productTypes'
+        className='mb-5'
+        onClickCheckbox={toggleProductTypes}
+        selectedIngredients={productTypes}
+        items={[
+          { text: 'Бисквитное', value: '1' },
+          { text: 'Песочное', value: '2' },
+          { text: 'Ореховое', value: '3' },
+        ]}
+      />
+
+      <FilterCheckboxGroup
+        title='Размеры'
+        name='sizes'
+        className='mb-5'
+        onClickCheckbox={toggleSizes}
+        selectedIngredients={sizes}
+        items={[
+          { text: '20 см', value: '20' },
+          { text: '30 см', value: '30' },
+          { text: '40 см', value: '40' },
+        ]}
+      />
+      {/* <div className='flex flex-col gap-4'>
         <FilterCheckbox name='hits' text='Хиты продаж' value='1' />
         <FilterCheckbox name='news' text='Новинки' value='2' />
-      </div>
+      </div> */}
 
       {/** Фильтр цены */}
       <div className='mt-5 border-y border-y-neutral-100 py-6 pb-7'>
@@ -55,7 +107,7 @@ export const Filters: FC<Props> = ({ className }) => {
             placeholder='0'
             min={0}
             max={3000}
-            value={String(price.priceFrom)}
+            value={String(prices.priceFrom)}
             onChange={(e) => updatePrice('priceFrom', Number(e.target.value))}
           />
           <Input
@@ -63,7 +115,7 @@ export const Filters: FC<Props> = ({ className }) => {
             placeholder='30000'
             min={100}
             max={3000}
-            value={String(price.priceTo)}
+            value={String(prices.priceTo)}
             onChange={(e) => updatePrice('priceTo', Number(e.target.value))}
           />
         </div>
@@ -71,7 +123,7 @@ export const Filters: FC<Props> = ({ className }) => {
           min={0}
           max={3000}
           step={10}
-          value={[price.priceFrom, price.priceTo]}
+          value={[prices.priceFrom, prices.priceTo]}
           onValueChange={([priceFrom, priceTo]) =>
             setPrice({ priceFrom, priceTo })
           }
@@ -85,7 +137,7 @@ export const Filters: FC<Props> = ({ className }) => {
           items={items}
           isLoading={isLoading}
           onClickCheckbox={onAddId}
-          selectedIds={selectedIds}
+          selectedIngredients={selectedIngredients}
           name='ingredients'
           className='mt-5'
         />

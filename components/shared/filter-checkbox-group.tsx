@@ -11,13 +11,13 @@ interface Props {
   className?: string;
   title: string;
   items: Item[];
-  defaultItems: Item[];
+  defaultItems?: Item[];
   limit?: number;
   searchInputPlaceholder?: string;
   onClickCheckbox?: (id: string) => void;
-  selectedIds?: Set<string>;
+  selectedIngredients?: Set<string>;
   // defaultValue?: string[];
-  isLoading: boolean;
+  isLoading?: boolean;
   name?: string
 }
 
@@ -29,7 +29,7 @@ export const FilterCheckboxGroup: FC<Props> = ({
   limit = 5,
   searchInputPlaceholder = 'Поиск...',
   onClickCheckbox,
-  selectedIds,
+  selectedIngredients,
   // defaultValue,
   isLoading,
   name,
@@ -59,7 +59,7 @@ export const FilterCheckboxGroup: FC<Props> = ({
     ? items.filter((item) =>
         item.text.toLowerCase().includes(searchValue.toLowerCase())
       )
-    : defaultItems?.slice(0, limit);
+    : (defaultItems || items).slice(0, limit);
 
   return (
     <div className={className}>
@@ -80,7 +80,7 @@ export const FilterCheckboxGroup: FC<Props> = ({
             text={item.text}
             value={item.value}
             endAdornment={item.endAdornment}
-            checked={selectedIds?.has(item.value)}
+            checked={selectedIngredients?.has(item.value)}
             onCheckedChange={() => onClickCheckbox?.(item.value)}
             name={name}
             // isLoading={true}

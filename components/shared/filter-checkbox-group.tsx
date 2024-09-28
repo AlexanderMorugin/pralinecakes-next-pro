@@ -4,6 +4,7 @@ import { ChangeEvent, useState, type FC } from 'react';
 
 import { FilterChecboxProps, FilterCheckbox } from './filter-checkbox';
 import { Input } from '../ui';
+import { Skeleton } from '../ui/skeleton';
 
 type Item = FilterChecboxProps;
 interface Props {
@@ -13,8 +14,11 @@ interface Props {
   defaultItems: Item[];
   limit?: number;
   searchInputPlaceholder?: string;
-  onChange?: (value: string[]) => void;
-  defaultValue?: string[];
+  onClickCheckbox?: (id: string) => void;
+  selectedIds?: Set<string>;
+  // defaultValue?: string[];
+  isLoading: boolean;
+  name?: string
 }
 
 export const FilterCheckboxGroup: FC<Props> = ({
@@ -24,8 +28,11 @@ export const FilterCheckboxGroup: FC<Props> = ({
   defaultItems,
   limit = 5,
   searchInputPlaceholder = 'Поиск...',
-  onChange,
-  defaultValue,
+  onClickCheckbox,
+  selectedIds,
+  // defaultValue,
+  isLoading,
+  name,
 }) => {
   const [showAll, setShowAll] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -34,8 +41,24 @@ export const FilterCheckboxGroup: FC<Props> = ({
     setSearchValue(e.target.value);
   };
 
+  if (isLoading) {
+    return (
+      <div className={className}>
+        <p className='font-bold mb-3'>{title}</p>
+        {...Array(limit)
+          .fill(0)
+          .map((_, index) => (
+            <Skeleton key={index} className='h-6 mb-4 rounded-[8px]' />
+          ))}
+        <Skeleton className='w-28 h-6 mb-4 rounded-[8px]' />
+      </div>
+    );
+  }
+
   const ingredientList = showAll
-    ? items.filter((item) => item.text.toLowerCase().includes(searchValue.toLowerCase()))
+    ? items.filter((item) =>
+        item.text.toLowerCase().includes(searchValue.toLowerCase())
+      )
     : defaultItems?.slice(0, limit);
 
   return (
@@ -57,8 +80,10 @@ export const FilterCheckboxGroup: FC<Props> = ({
             text={item.text}
             value={item.value}
             endAdornment={item.endAdornment}
-            checked={false}
-            onCheckedChange={(fff) => console.log(fff)}
+            checked={selectedIds?.has(item.value)}
+            onCheckedChange={() => onClickCheckbox?.(item.value)}
+            name={name}
+            // isLoading={true}
           />
         ))}
       </div>

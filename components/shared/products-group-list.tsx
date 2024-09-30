@@ -32,7 +32,6 @@ export const ProductsGroupList: FC<Props> = ({
   useEffect(() => {
     if (intersection?.isIntersecting) {
       setActiveCategoryId(categoryId);
-      // console.log(title, categoryId);
     }
   }, [intersection?.isIntersecting, title, categoryId]);
 
@@ -43,9 +42,11 @@ export const ProductsGroupList: FC<Props> = ({
         {items.map((item) => (
           <ProductCard
             key={item.id}
+            id={item.id}
             name={item.name}
             imageUrl={item.imageUrl}
-            price={item.items[0].price}
+            // price={item.items[0].price}
+            price={item.productItems[0]?.productPrice}
           />
         ))}
       </div>

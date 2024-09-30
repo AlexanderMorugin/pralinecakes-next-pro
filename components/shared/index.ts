@@ -11,3 +11,5 @@ export { FilterCheckboxGroup } from './filter-checkbox-group';
 export { ProductCard } from './product-card';
 export { ProductsGroupList } from './products-group-list';
 export { SearchInput } from './search-input';
+export { ProductImage } from './product-image';
+export { VariantSelector } from './variant-selector';

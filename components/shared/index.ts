@@ -13,3 +13,7 @@ export { ProductsGroupList } from './products-group-list';
 export { SearchInput } from './search-input';
 export { ProductImage } from './product-image';
 export { VariantSelector } from './variant-selector';
+export { ChooseProductForm } from './choose-product-form';
+export { ChooseProductWithItemsForm } from './choose-product-with-items-form';
+export { CurrentIngredient } from './current-ingredient';
+export * from './modals';

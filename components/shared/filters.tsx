@@ -52,9 +52,9 @@ export const Filters: FC<Props> = ({ className }) => {
         onClickCheckbox={filters.setSizes}
         selectedIngredients={filters.sizes}
         items={[
-          { text: '20 см', value: '20' },
           { text: '30 см', value: '30' },
           { text: '40 см', value: '40' },
+          { text: '50 см', value: '50' },
         ]}
       />
 
@@ -66,7 +66,7 @@ export const Filters: FC<Props> = ({ className }) => {
             type='number'
             placeholder='0'
             min={0}
-            max={3000}
+            max={1000}
             value={String(filters.prices.priceFrom)}
             onChange={(e) =>
               filters.setPrices('priceFrom', Number(e.target.value))
@@ -74,8 +74,8 @@ export const Filters: FC<Props> = ({ className }) => {
           />
           <Input
             type='number'
-            placeholder='30000'
-            min={100}
+            placeholder='3000'
+            min={1000}
             max={3000}
             value={String(filters.prices.priceTo)}
             onChange={(e) =>

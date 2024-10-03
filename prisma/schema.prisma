@@ -38,13 +38,15 @@ model Category {
 
 // модель товара
 model Product {
-  id           Int           @id @default(autoincrement())
-  name         String
-  imageUrl     String
-  category     Category      @relation(fields: [categoryId], references: [id])
-  categoryId   Int
-  ingredients  Ingredient[]
-  productItems ProductItem[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  imageUrl    String
+  category    Category     @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  ingredients Ingredient[]
+
+  // вариации
+  items ProductItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

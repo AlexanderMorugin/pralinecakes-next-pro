@@ -13,14 +13,14 @@ interface Props {
   items: readonly Variant[];
   // defaultValue?: string;
   onClick?: (value: Variant['value']) => void;
-  selectedValue?: Variant['value'];
+  value?: Variant['value'];
   className?: string;
 }
 
 export const VariantSelector: FC<Props> = ({
   items,
   onClick,
-  selectedValue,
+  value,
   className,
 }) => {
   return (
@@ -37,7 +37,7 @@ export const VariantSelector: FC<Props> = ({
           className={cn(
             'flex flex-1 items-center justify-center h-[30px] px-5 rounded-3xl transition-all duration-400 text-sm',
             {
-              'bg-white shadow': item.value === selectedValue,
+              'bg-white shadow': item.value === value,
               'text-gray-500 opacity-50 pointer-events-none': item.disabled,
             }
           )}

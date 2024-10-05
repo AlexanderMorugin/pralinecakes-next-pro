@@ -13,7 +13,7 @@ import { Ingredient, ProductItem } from '@prisma/client';
  * @returns number общую стоимость
  */
 
-export const CalcTotalProductPrice = (
+export const calcTotalProductPrice = (
   type: ProductType,
   size: ProductSize,
   items: ProductItem[],

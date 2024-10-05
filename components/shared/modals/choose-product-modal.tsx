@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { type FC } from 'react';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
@@ -38,10 +32,7 @@ export const ChooseProductModal: FC<Props> = ({ product, className }) => {
             items={product.items}
           />
         ) : (
-          <ChooseProductForm
-            imageUrl={product.imageUrl}
-            name={product.name}
-          />
+          <ChooseProductForm imageUrl={product.imageUrl} name={product.name} />
         )}
       </DialogContent>
     </Dialog>

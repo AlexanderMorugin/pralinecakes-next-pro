@@ -16,4 +16,10 @@ export { VariantSelector } from './variant-selector';
 export { ChooseProductForm } from './choose-product-form';
 export { ChooseProductWithItemsForm } from './choose-product-with-items-form';
 export { CurrentIngredient } from './current-ingredient';
+export { CartButton } from './cart-button';
+export { CartDrawer } from './cart-drawer';
+export { CartDrawerItem } from './cart-drawer-item';
+export { CountButton } from './count-button';
+export { CountIconButton } from './count-icon-button';
+
 export * from './modals';

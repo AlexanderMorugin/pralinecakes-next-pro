@@ -1,20 +1,14 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { useEffect, useState, type FC } from 'react';
+import { type FC } from 'react';
 import { CurrentIngredient, ProductImage, Title, VariantSelector } from '.';
 import { Button } from '../ui';
-import {
-  mapProductType,
-  ProductSize,
-  productSizes,
-  ProductType,
-  productTypes,
-} from '@/constants/constants';
+import { ProductSize, ProductType, productTypes } from '@/constants/constants';
 import { Ingredient } from '@prisma/client';
-import { useSet } from 'react-use';
 import { ProductWithRelations } from '@/@types/prisma';
-import { CalcTotalProductPrice } from '@/lib';
+import { getProductDetails } from '@/lib';
+import { useProductOptions } from '@/hooks';
 
 interface Props {
   imageUrl: string;
@@ -33,53 +27,23 @@ export const ChooseProductWithItemsForm: FC<Props> = ({
   onClickAddCart,
   className,
 }) => {
-  const [size, setSize] = useState<ProductSize>(30);
-  const [type, setType] = useState<ProductType>(1);
-  const [selectedIngredients, { toggle: addIngredient }] = useSet(
-    new Set<number>([])
-  );
+  const {
+    size,
+    setSize,
+    type,
+    setType,
+    selectedIngredients,
+    addIngredient,
+    avialableProductSizes,
+  } = useProductOptions(items);
 
-  // const productPrice =
-  //   items?.find(
-  //     (item) => item.productType === type && item.productSize === size
-  //   )?.productPrice || 0;
-
-  // const totalIngredientsPrice = ingredients
-  //   .filter((ingredient) => selectedIngredients.has(ingredient.id))
-  //   .reduce((aac, ingredient) => aac + ingredient.price, 0);
-
-  const totalPrice = CalcTotalProductPrice(
+  const { totalPrice, textDetails } = getProductDetails(
     type,
     size,
     items,
     ingredients,
     selectedIngredients
   );
-
-  const textDetails = `${size} cm, ${mapProductType[type]} taste`;
-
-  const filteredProductbyType = items?.filter(
-    (item) => item.productType === type
-  );
-  const avialableProductSizes = productSizes.map((item) => ({
-    name: item.name,
-    value: item.value,
-    disabled: !filteredProductbyType.some(
-      (product) => Number(product.productSize) === Number(item.value)
-    ),
-  }));
-
-  useEffect(() => {
-    const isAviabledSize = avialableProductSizes?.find(
-      (item) => Number(item.value) === size && !item.disabled
-    );
-    const avialebleSize = avialableProductSizes?.find((item) => !item.disabled);
-
-    if (!isAviabledSize && avialebleSize) {
-      setSize(Number(avialebleSize.value) as ProductSize);
-    }
-  }, [type]);
-
   const handleClickAdd = () => {
     onClickAddCart?.();
     console.log({

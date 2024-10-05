@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { type FC } from 'react';
 
-type Variant = {
+export type Variant = {
   name: string;
   value: string;
   disabled?: boolean;
@@ -11,7 +11,6 @@ type Variant = {
 
 interface Props {
   items: readonly Variant[];
-  // defaultValue?: string;
   onClick?: (value: Variant['value']) => void;
   value?: Variant['value'];
   className?: string;

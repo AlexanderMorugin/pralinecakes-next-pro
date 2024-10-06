@@ -1,11 +1,17 @@
 'use client';
 
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { type FC } from 'react';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { ChooseProductForm, ChooseProductWithItemsForm } from '..';
 import { ProductWithRelations } from '@/@types/prisma';
+
 
 interface Props {
   product: ProductWithRelations;
@@ -20,10 +26,14 @@ export const ChooseProductModal: FC<Props> = ({ product, className }) => {
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
       <DialogContent
         className={cn(
-          'p-0 w-full max-w-[1060px] min-h-[560px] bg-white overflow-hidden',
+          'overflow-hidden p-0 w-full max-w-[1060px] min-h-[560px] bg-white',
           className
         )}
       >
+        {/** Скрываем в консоли ошибки по поводу Титла и Дескрипшн */}
+        <DialogTitle className='hidden' />
+        <DialogDescription className='hidden' />
+
         {isProductWithItems ? (
           <ChooseProductWithItemsForm
             imageUrl={product.imageUrl}

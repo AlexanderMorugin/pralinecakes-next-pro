@@ -4,6 +4,7 @@ import { PropsWithChildren, type FC } from 'react';
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -15,14 +16,7 @@ import { ArrowRight } from 'lucide-react';
 import { CartDrawerItem } from '.';
 import { getCartItemDetails } from '@/lib';
 
-interface Props {
-  className?: string;
-}
-
-export const CartDrawer: FC<PropsWithChildren<Props>> = ({
-  children,
-  className,
-}) => {
+export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Sheet>
       <SheetTrigger>{children}</SheetTrigger>
@@ -31,135 +25,13 @@ export const CartDrawer: FC<PropsWithChildren<Props>> = ({
           <SheetTitle>
             В корзине <span className='font-bold'>3 товара</span>
           </SheetTitle>
+
+          {/** Скрываем ошибку в консоли по поводу Дескрипшн */}
+          <SheetDescription className='hidden' />
+          
         </SheetHeader>
 
         <div className='-mx-6 mt-5 overflow-auto flex-1'>
-          <div className='mb-2'>
-            <CartDrawerItem
-              id={1}
-              imageUrl={
-                'https://pralinecakes.ru/_next/static/media/cake-morkovniy-m-new.91bb4f1a.jpeg'
-              }
-              details={getCartItemDetails(2, 30, [
-                {
-                  name: 'Пирожное приготовлено из трех слоев бисквита',
-                  name: 'отпекается из пшеничной муки',
-                },
-              ])}
-              name={'Napoleon'}
-              price={700}
-              quantity={1}
-            />
-          </div>
-
-          <div className='mb-2'>
-            <CartDrawerItem
-              id={1}
-              imageUrl={
-                'https://pralinecakes.ru/_next/static/media/cake-morkovniy-m-new.91bb4f1a.jpeg'
-              }
-              details={getCartItemDetails(2, 30, [
-                {
-                  name: 'Пирожное приготовлено из трех слоев бисквита',
-                  name: 'отпекается из пшеничной муки',
-                },
-              ])}
-              name={'Napoleon'}
-              price={700}
-              quantity={1}
-            />
-          </div>
-
-          <div className='mb-2'>
-            <CartDrawerItem
-              id={1}
-              imageUrl={
-                'https://pralinecakes.ru/_next/static/media/cake-morkovniy-m-new.91bb4f1a.jpeg'
-              }
-              details={getCartItemDetails(2, 30, [
-                {
-                  name: 'Пирожное приготовлено из трех слоев бисквита',
-                  name: 'отпекается из пшеничной муки',
-                },
-              ])}
-              name={'Napoleon'}
-              price={700}
-              quantity={1}
-            />
-          </div>
-
-          <div className='mb-2'>
-            <CartDrawerItem
-              id={1}
-              imageUrl={
-                'https://pralinecakes.ru/_next/static/media/cake-morkovniy-m-new.91bb4f1a.jpeg'
-              }
-              details={getCartItemDetails(2, 30, [
-                {
-                  name: 'Пирожное приготовлено из трех слоев бисквита',
-                  name: 'отпекается из пшеничной муки',
-                },
-              ])}
-              name={'Napoleon'}
-              price={700}
-              quantity={1}
-            />
-          </div>
-
-          <div className='mb-2'>
-            <CartDrawerItem
-              id={1}
-              imageUrl={
-                'https://pralinecakes.ru/_next/static/media/cake-morkovniy-m-new.91bb4f1a.jpeg'
-              }
-              details={getCartItemDetails(2, 30, [
-                {
-                  name: 'Пирожное приготовлено из трех слоев бисквита',
-                  name: 'отпекается из пшеничной муки',
-                },
-              ])}
-              name={'Napoleon'}
-              price={700}
-              quantity={1}
-            />
-          </div>
-
-          <div className='mb-2'>
-            <CartDrawerItem
-              id={1}
-              imageUrl={
-                'https://pralinecakes.ru/_next/static/media/cake-morkovniy-m-new.91bb4f1a.jpeg'
-              }
-              details={getCartItemDetails(2, 30, [
-                {
-                  name: 'Пирожное приготовлено из трех слоев бисквита',
-                  name: 'отпекается из пшеничной муки',
-                },
-              ])}
-              name={'Napoleon'}
-              price={700}
-              quantity={1}
-            />
-          </div>
-
-          <div className='mb-2'>
-            <CartDrawerItem
-              id={1}
-              imageUrl={
-                'https://pralinecakes.ru/_next/static/media/cake-morkovniy-m-new.91bb4f1a.jpeg'
-              }
-              details={getCartItemDetails(2, 30, [
-                {
-                  name: 'Пирожное приготовлено из трех слоев бисквита',
-                  name: 'отпекается из пшеничной муки',
-                },
-              ])}
-              name={'Napoleon'}
-              price={700}
-              quantity={1}
-            />
-          </div>
-
           <div className='mb-2'>
             <CartDrawerItem
               id={1}

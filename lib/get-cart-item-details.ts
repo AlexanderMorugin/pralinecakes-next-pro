@@ -3,12 +3,12 @@ import {
   ProductSize,
   ProductType,
 } from '@/constants/constants';
-import { Ingredient } from '@prisma/client';
+import { CartStateItem } from './get-cart-details';
 
 export const getCartItemDetails = (
+  ingredients: CartStateItem['ingredients'],
   productType: ProductType,
-  productSize: ProductSize,
-  ingredients: Ingredient[]
+  productSize: ProductSize
 ): string => {
   const details = [];
 

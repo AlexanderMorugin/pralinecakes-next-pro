@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, type FC } from 'react';
+import { PropsWithChildren, useEffect, type FC } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -15,8 +15,16 @@ import { Button } from '../ui';
 import { ArrowRight } from 'lucide-react';
 import { CartDrawerItem } from '.';
 import { getCartItemDetails } from '@/lib';
+import { useCartStore } from '@/store/cart';
+import { ProductSize, ProductType } from '@/constants/constants';
 
 export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
+  const { totalAmount, fetchCartItems, items } = useCartStore((state) => state);
+
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
+
   return (
     <Sheet>
       <SheetTrigger>{children}</SheetTrigger>
@@ -28,26 +36,29 @@ export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
 
           {/** Скрываем ошибку в консоли по поводу Дескрипшн */}
           <SheetDescription className='hidden' />
-          
         </SheetHeader>
 
         <div className='-mx-6 mt-5 overflow-auto flex-1'>
           <div className='mb-2'>
-            <CartDrawerItem
-              id={1}
-              imageUrl={
-                'https://pralinecakes.ru/_next/static/media/cake-morkovniy-m-new.91bb4f1a.jpeg'
-              }
-              details={getCartItemDetails(2, 30, [
-                {
-                  name: 'Пирожное приготовлено из трех слоев бисквита',
-                  name: 'отпекается из пшеничной муки',
-                },
-              ])}
-              name={'Napoleon'}
-              price={700}
-              quantity={1}
-            />
+            {items.map((item) => (
+              <CartDrawerItem
+                key={item.id}
+                id={item.id}
+                imageUrl={item.imageUrl}
+                details={
+                  item.productSize && item.productType
+                    ? getCartItemDetails(
+                        item.ingredients,
+                        item.productType as ProductType,
+                        item.productSize as ProductSize
+                      )
+                    : ''
+                }
+                name={item.name}
+                price={item.productPrice}
+                quantity={item.quantity}
+              />
+            ))}
           </div>
         </div>
 
@@ -58,7 +69,7 @@ export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
                 Итого
                 <div className='flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-2' />
               </span>
-              <span className='font-bold text-lg'>500 rub</span>
+              <span className='font-bold text-lg'>{totalAmount} руб</span>
             </div>
 
             <Link href='/cart'>

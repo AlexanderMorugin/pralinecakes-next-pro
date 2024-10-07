@@ -246,7 +246,7 @@ async function up() {
 
   await prisma.cart.createMany({
     data: [
-      { userId: 1, totalAmount: 0, token: '111' },
+      { userId: 1, totalAmount: 1450, token: '111' },
       { userId: 2, totalAmount: 0, token: '222' },
     ],
   });

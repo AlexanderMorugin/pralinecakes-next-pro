@@ -19,8 +19,13 @@ import { useCartStore } from '@/store/cart';
 import { ProductSize, ProductType } from '@/constants/constants';
 
 export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
-  const { totalAmount, fetchCartItems, updateItemQuantity, items } =
-    useCartStore((state) => state);
+  const {
+    totalAmount,
+    items,
+    fetchCartItems,
+    updateItemQuantity,
+    removeCartItem,
+  } = useCartStore((state) => state);
 
   useEffect(() => {
     fetchCartItems();
@@ -70,6 +75,7 @@ export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
                 handleClickCountButton={(type) =>
                   handleClickCountButton(item.id, item.quantity, type)
                 }
+                onClickRemove={() => removeCartItem(item.id)}
               />
             ))}
           </div>

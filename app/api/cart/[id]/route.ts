@@ -8,7 +8,6 @@ export async function PATCH(
 ) {
   try {
     const id = Number(params.id);
-    // const body = await req.json();
     const data = (await req.json()) as { quantity: number };
     const token = req.cookies.get('cartToken')?.value;
 
@@ -61,7 +60,6 @@ export async function DELETE(
 
     const cartItem = await prisma.cartItem.findFirst({
       where: {
-        // id: Number(params.id),
         id,
       },
     });
@@ -72,7 +70,6 @@ export async function DELETE(
 
     await prisma.cartItem.delete({
       where: {
-        // id: Number(params.id),
         id,
       },
     });

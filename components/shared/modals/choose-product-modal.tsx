@@ -22,6 +22,10 @@ export const ChooseProductModal: FC<Props> = ({ product, className }) => {
   const router = useRouter();
   const isProductWithItems = Boolean(product.items[0].productType);
 
+  const onAddProductWithItems = () => {}
+
+  const onAddProduct = () => {}
+
   return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
       <DialogContent

@@ -19,11 +19,21 @@ import { useCartStore } from '@/store/cart';
 import { ProductSize, ProductType } from '@/constants/constants';
 
 export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
-  const { totalAmount, fetchCartItems, items } = useCartStore((state) => state);
+  const { totalAmount, fetchCartItems, updateItemQuantity, items } =
+    useCartStore((state) => state);
 
   useEffect(() => {
     fetchCartItems();
   }, []);
+
+  const handleClickCountButton = (
+    id: number,
+    quantity: number,
+    type: 'plus' | 'minus'
+  ) => {
+    const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
 
   return (
     <Sheet>
@@ -31,7 +41,7 @@ export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
       <SheetContent className='flex flex-col justify-between pb-0 bg-[#f4f1ee]'>
         <SheetHeader>
           <SheetTitle>
-            В корзине <span className='font-bold'>3 товара</span>
+            В корзине <span className='font-bold'>{items.length} товара</span>
           </SheetTitle>
 
           {/** Скрываем ошибку в консоли по поводу Дескрипшн */}
@@ -57,6 +67,9 @@ export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
                 name={item.name}
                 price={item.productPrice}
                 quantity={item.quantity}
+                handleClickCountButton={(type) =>
+                  handleClickCountButton(item.id, item.quantity, type)
+                }
               />
             ))}
           </div>

@@ -13,7 +13,7 @@ export interface CartState {
   fetchCartItems: () => Promise<void>;
 
   /** Запрос на обновление количества товара */
-  // updateItemQuantity: (id: number, quantity: number) => Promise<void>;
+  updateItemQuantity: (id: number, quantity: number) => Promise<void>;
 
   /** Запрос на добавление товара */
   // TODO: Типизировать values
@@ -32,7 +32,7 @@ export const useCartStore = create<CartState>((set) => ({
   fetchCartItems: async () => {
     try {
       set({ loading: true, error: false });
-      const data = await Api.cart.fetchCart();
+      const data = await Api.cart.getCart();
       set(getCartDetails(data));
     } catch (error) {
       console.error(error);
@@ -41,7 +41,17 @@ export const useCartStore = create<CartState>((set) => ({
     }
   },
 
-  // updateItemQuantity: async (id: number, quantity: number) => {},
+  updateItemQuantity: async (id: number, quantity: number) => {
+    try {
+      set({ loading: true, error: false });
+      const data = await Api.cart.updateItemQuantity(id, quantity);
+      set(getCartDetails(data));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      set({ loading: false });
+    }
+  },
 
   // addCartItem: async (values: any) => {},
 

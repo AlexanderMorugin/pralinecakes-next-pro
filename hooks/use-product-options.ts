@@ -13,6 +13,7 @@ interface ReturnProps {
   selectedIngredients: Set<number>;
   addIngredient: (id: number) => void;
   avialableProductSizes: Variant[];
+  currentItemId?: number;
 }
 
 export const useProductOptions = (items: ProductItem[]): ReturnProps => {
@@ -23,6 +24,10 @@ export const useProductOptions = (items: ProductItem[]): ReturnProps => {
   );
 
   const avialableProductSizes = getAvialableProductSizes(type, items);
+
+  const currentItemId = items.find(
+    (item) => item.productType === type && item.productSize === size
+  )?.id;
 
   useEffect(() => {
     const isAviabledSize = avialableProductSizes?.find(
@@ -43,5 +48,6 @@ export const useProductOptions = (items: ProductItem[]): ReturnProps => {
     selectedIngredients,
     addIngredient,
     avialableProductSizes,
+    currentItemId,
   };
 };

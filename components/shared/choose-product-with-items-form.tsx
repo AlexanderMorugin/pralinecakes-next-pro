@@ -15,7 +15,8 @@ interface Props {
   name: string;
   ingredients: Ingredient[];
   items: ProductWithRelations['items'];
-  onClickAddCart?: VoidFunction;
+  onSubmit: (itemId: number, ingredients: number[]) => void;
+  loading?: boolean;
   className?: string;
 }
 
@@ -24,7 +25,8 @@ export const ChooseProductWithItemsForm: FC<Props> = ({
   name,
   ingredients,
   items,
-  onClickAddCart,
+  onSubmit,
+  loading,
   className,
 }) => {
   const {
@@ -35,6 +37,7 @@ export const ChooseProductWithItemsForm: FC<Props> = ({
     selectedIngredients,
     addIngredient,
     avialableProductSizes,
+    currentItemId,
   } = useProductOptions(items);
 
   const { totalPrice, textDetails } = getProductDetails(
@@ -45,12 +48,9 @@ export const ChooseProductWithItemsForm: FC<Props> = ({
     selectedIngredients
   );
   const handleClickAdd = () => {
-    onClickAddCart?.();
-    console.log({
-      size,
-      type,
-      ingredients: selectedIngredients,
-    });
+    if (currentItemId) {
+      onSubmit(currentItemId, Array.from(selectedIngredients));
+    }
   };
 
   return (
@@ -87,6 +87,7 @@ export const ChooseProductWithItemsForm: FC<Props> = ({
         </div>
 
         <Button
+          loading={loading}
           className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10'
           onClick={handleClickAdd}
         >

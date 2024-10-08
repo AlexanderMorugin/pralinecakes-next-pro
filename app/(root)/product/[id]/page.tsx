@@ -31,7 +31,7 @@ export default async function ProductPage({
           />
           <p className='text-gray-400'>sdfasdfasdfasdfasdfasdfasdfasdf</p>
           <VariantSelector
-            selectedValue='2'
+            value='2'
             items={[
               {
                 name: 'Маленький',

@@ -4,12 +4,15 @@ import { Plus } from 'lucide-react';
 
 import { Title } from './title';
 import { Button } from '../ui';
+import { Ingredient } from '@prisma/client';
+import { join } from 'path';
 
 interface Props {
   id: number;
   name: string;
   price: number;
   imageUrl: string;
+  ingredients: Ingredient[];
   className?: string;
 }
 
@@ -18,6 +21,7 @@ export const ProductCard: FC<Props> = ({
   name,
   price,
   imageUrl,
+  ingredients,
   className,
 }) => {
   return (
@@ -33,9 +37,7 @@ export const ProductCard: FC<Props> = ({
         <Title text={name} size='sm' className='mb-1 mt-3 font-bold' />
 
         <p className='text-sm text-gray-400'>
-          Пирожное приготовлено из трех слоев бисквита кофейного цвета. Бисквит
-          отпекается из пшеничной муки, мёда, сливочного масла, сахара, яиц и
-          какао.
+          {ingredients.map((ingredient) => ingredient.name).join(', ')}
         </p>
 
         <div className='flex justify-between items-center mt-4'>

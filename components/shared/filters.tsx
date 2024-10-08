@@ -38,9 +38,8 @@ export const Filters: FC<Props> = ({ className }) => {
         onClickCheckbox={filters.setProductTypes}
         selectedIngredients={filters.productTypes}
         items={[
-          { text: 'Бисквитное', value: '1' },
-          { text: 'Песочное', value: '2' },
-          { text: 'Ореховое', value: '3' },
+          { text: 'Соленый', value: '1' },
+          { text: 'Сладкий', value: '2' },
         ]}
       />
 

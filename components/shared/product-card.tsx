@@ -5,7 +5,6 @@ import { Plus } from 'lucide-react';
 import { Title } from './title';
 import { Button } from '../ui';
 import { Ingredient } from '@prisma/client';
-import { join } from 'path';
 
 interface Props {
   id: number;

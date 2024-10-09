@@ -46,8 +46,7 @@ export const ProductsGroupList: FC<Props> = ({
             id={item.id}
             name={item.name}
             imageUrl={item.imageUrl}
-            // price={item.items[0].price}
-            price={item.items[0]?.productPrice}
+            price={item.items[0].productPrice}
             ingredients={item.ingredients}
           />
         ))}

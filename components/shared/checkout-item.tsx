@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 
 interface Props extends CartItemProps {
   onClickRemove?: () => void;
-  onClickCountButton?: (type: 'plus' | 'minus') => void;
+  handleClickCountButton?: (type: 'plus' | 'minus') => void;
   className?: string;
 }
 
@@ -22,18 +22,25 @@ export const CheckoutItem: FC<Props> = ({
   quantity,
   details,
   onClickRemove,
-  onClickCountButton,
+  handleClickCountButton,
+  disabled,
   className,
 }) => {
   return (
-    <div className={cn('flex items-center justify-center', className)}>
+    <div
+      className={cn(
+        'flex items-center justify-center',
+        { 'opacity-50 pointer-events-none': disabled },
+        className
+      )}
+    >
       <div className='flex items-center gap-5 flex-1'>
         <CartItemDetailsImage src={imageUrl} />
         <CartItemInfo name={name} details={details} />
       </div>
       <CartItemDetailsPrice value={price} />
       <div className='flex items-center gap-5 ml-20'>
-        <CountButton onClick={onClickCountButton} value={quantity} />
+        <CountButton onClick={handleClickCountButton} value={quantity} />
         <button onClick={onClickRemove}>
           <X
             size={20}

@@ -7,8 +7,8 @@ import { CartStateItem } from './get-cart-details';
 
 export const getCartItemDetails = (
   ingredients: CartStateItem['ingredients'],
-  productType: ProductType,
-  productSize: ProductSize
+  productType?: ProductType,
+  productSize?: ProductSize
 ): string => {
   const details = [];
 

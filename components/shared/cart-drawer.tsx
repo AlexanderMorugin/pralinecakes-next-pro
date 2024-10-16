@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, type FC } from 'react';
+import { PropsWithChildren, useState, type FC } from 'react';
 import {
   Sheet,
   SheetClose,
@@ -23,6 +23,7 @@ import { useCart } from '@/hooks';
 
 export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
   const { totalAmount, items, updateItemQuantity, removeCartItem } = useCart();
+  const [redirect, setRedirect] = useState(false);
 
   const handleClickCountButton = (
     id: number,
@@ -58,15 +59,11 @@ export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
                   <CartDrawerItem
                     id={item.id}
                     imageUrl={item.imageUrl}
-                    details={
-                      item.productSize && item.productType
-                        ? getCartItemDetails(
-                            item.ingredients,
-                            item.productType as ProductType,
-                            item.productSize as ProductSize
-                          )
-                        : ''
-                    }
+                    details={getCartItemDetails(
+                      item.ingredients,
+                      item.productType as ProductType,
+                      item.productSize as ProductSize
+                    )}
                     disabled={item.disabled}
                     name={item.name}
                     price={item.productPrice}
@@ -90,8 +87,13 @@ export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
                   <span className='font-bold text-lg'>{totalAmount} руб</span>
                 </div>
 
-                <Link href='/cart'>
-                  <Button type='submit' className='w-full h-12 text-base'>
+                <Link href='/checkout'>
+                  <Button
+                    loading={redirect}
+                    onClick={() => setRedirect(true)}
+                    type='submit'
+                    className='w-full h-12 text-base'
+                  >
                     Оформить заказ
                     <ArrowRight className='w-5 ml-2' />
                   </Button>

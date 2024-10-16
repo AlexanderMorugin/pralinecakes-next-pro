@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, useEffect, type FC } from 'react';
+import { PropsWithChildren, type FC } from 'react';
 import {
   Sheet,
   SheetClose,
@@ -16,23 +16,13 @@ import { Button } from '../ui';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { CartDrawerItem, Title } from '.';
 import { getCartItemDetails } from '@/lib';
-import { useCartStore } from '@/store/cart';
 import { ProductSize, ProductType } from '@/constants/constants';
 import ImageLogo from '@/public/logo-120.png';
 import Image from 'next/image';
+import { useCart } from '@/hooks';
 
 export const CartDrawer: FC<PropsWithChildren> = ({ children }) => {
-  const {
-    totalAmount,
-    items,
-    fetchCartItems,
-    updateItemQuantity,
-    removeCartItem,
-  } = useCartStore((state) => state);
-
-  useEffect(() => {
-    fetchCartItems();
-  }, []);
+  const { totalAmount, items, updateItemQuantity, removeCartItem } = useCart();
 
   const handleClickCountButton = (
     id: number,

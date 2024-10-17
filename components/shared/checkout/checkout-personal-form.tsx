@@ -1,9 +1,13 @@
 import { type FC } from 'react';
 import { FormInput, WhiteBlock } from '..';
 
-export const CheckoutPersonalForm: FC = () => {
+interface Props {
+  className?: string;
+}
+
+export const CheckoutPersonalForm: FC<Props> = ({ className }) => {
   return (
-    <WhiteBlock title='2. Персональные данные'>
+    <WhiteBlock title='2. Персональные данные' className={className}>
       <div className='grid grid-cols-2 gap-5'>
         <FormInput name='firstName' className='text-base' placeholder='Имя' />
         <FormInput

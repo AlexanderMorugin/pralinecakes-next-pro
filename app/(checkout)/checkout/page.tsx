@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   CheckoutAddressForm,
@@ -17,7 +17,8 @@ import {
 } from '@/components/shared/checkout/checkout-form-schema';
 
 export default function CheckoutPage() {
-  const { totalAmount, items, updateItemQuantity, removeCartItem } = useCart();
+  const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
+    useCart();
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutFormSchema),
@@ -57,15 +58,22 @@ export default function CheckoutPage() {
             <div className='flex flex-col gap-10 flex-1 mb-20'>
               <CheckoutCart
                 items={items}
+                loading={loading}
                 handleClickCountButton={handleClickCountButton}
                 removeCartItem={removeCartItem}
               />
-              <CheckoutPersonalForm />
-              <CheckoutAddressForm />
+              <CheckoutPersonalForm
+                className={loading ? 'opacity-40 pointer-events-none' : ''}
+              />
+
+              {/** TODO: Исправить ошибку в консоли */}
+              <CheckoutAddressForm
+                className={loading ? 'opacity-40 pointer-events-none' : ''}
+              />
             </div>
 
             {/** Правая сторона */}
-            <CheckoutSidebar totalAmount={totalAmount} />
+            <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
           </div>
         </form>
       </FormProvider>

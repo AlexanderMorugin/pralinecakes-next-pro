@@ -15,8 +15,14 @@ import {
   checkoutFormSchema,
   CheckoutFormValues,
 } from '@/components/shared/checkout/checkout-form-schema';
+import { createOrder } from '@/app/actions';
+import toast from 'react-hot-toast';
+import { Fish, FishOff } from 'lucide-react';
+import { useState } from 'react';
 
 export default function CheckoutPage() {
+  const [submiting, setSubmiting] = useState(false);
+
   const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
     useCart();
 
@@ -32,8 +38,21 @@ export default function CheckoutPage() {
     },
   });
 
-  const onSubmit = (data: CheckoutFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: CheckoutFormValues) => {
+    try {
+      setSubmiting(true);
+      const url = await createOrder(data);
+
+      toast.success('Заказ успешно оформлен', { icon: <Fish /> });
+
+      if (url) {
+        location.href = url;
+      }
+    } catch (error) {
+      console.log(error);
+      setSubmiting(false);
+      toast.error('Не удалось отправить заказ', { icon: <FishOff /> });
+    }
   };
 
   const handleClickCountButton = (
@@ -73,7 +92,10 @@ export default function CheckoutPage() {
             </div>
 
             {/** Правая сторона */}
-            <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
+            <CheckoutSidebar
+              totalAmount={totalAmount}
+              loading={loading || submiting}
+            />
           </div>
         </form>
       </FormProvider>

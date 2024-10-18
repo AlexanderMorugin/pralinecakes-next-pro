@@ -2,6 +2,7 @@ import { getCartDetails } from '@/lib';
 import { CartStateItem } from '@/lib/get-cart-details';
 import { Api } from '@/services/api-client';
 import { CreateCartItemValues } from '@/services/dto/cart.dto';
+import { CartItem } from '@prisma/client';
 import { create } from 'zustand';
 
 export interface CartState {
@@ -18,7 +19,7 @@ export interface CartState {
 
   /** Запрос на добавление товара */
   // TODO: Типизировать values
-  addCartItem: (values: any) => Promise<void>;
+  addCartItem: (values: CartItem) => Promise<void>;
 
   /** Запрос на удаление товара */
   removeCartItem: (id: number) => Promise<void>;
@@ -44,7 +45,7 @@ export const useCartStore = create<CartState>((set) => ({
 
   updateItemQuantity: async (id: number, quantity: number) => {
     try {
-      set({ loading: true, error: false });
+      set({ loading: false, error: false });
       const data = await Api.cart.updateItemQuantity(id, quantity);
       set(getCartDetails(data));
     } catch (error) {

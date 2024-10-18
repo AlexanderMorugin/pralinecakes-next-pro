@@ -32,6 +32,7 @@ export { ErrorText } from './error-text';
 export { ClearButton } from './clear-button';
 export { AddressInput } from './address-input';
 
+export * from './resend';
 export * from './checkout';
 export * from './form';
 export * from './modals';

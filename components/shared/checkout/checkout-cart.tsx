@@ -23,31 +23,30 @@ export const CheckoutCart: FC<Props> = ({
 }) => {
   return (
     <WhiteBlock title='1. Корзина' contentClassName='flex flex-col gap-5'>
-      {loading &&
-        [...Array(4)].map((_, index) => (
-          <CheckoutItemSkeleton key={index} className='h-20' />
-        ))}
-
-      {items.map((item) => (
-        <CheckoutItem
-          key={item.id}
-          id={item.id}
-          imageUrl={item.imageUrl}
-          details={getCartItemDetails(
-            item.ingredients,
-            item.productType as ProductType,
-            item.productSize as ProductSize
-          )}
-          name={item.name}
-          price={item.productPrice}
-          quantity={item.quantity}
-          disabled={item.disabled}
-          handleClickCountButton={(type) =>
-            handleClickCountButton(item.id, item.quantity, type)
-          }
-          onClickRemove={() => removeCartItem(item.id)}
-        />
-      ))}
+      {loading
+        ? [...Array(4)].map((_, index) => (
+            <CheckoutItemSkeleton key={index} className='h-20' />
+          ))
+        : items.map((item) => (
+            <CheckoutItem
+              key={item.id}
+              id={item.id}
+              imageUrl={item.imageUrl}
+              details={getCartItemDetails(
+                item.ingredients,
+                item.productType as ProductType,
+                item.productSize as ProductSize
+              )}
+              name={item.name}
+              price={item.productPrice}
+              quantity={item.quantity}
+              disabled={item.disabled}
+              handleClickCountButton={(type) =>
+                handleClickCountButton(item.id, item.quantity, type)
+              }
+              onClickRemove={() => removeCartItem(item.id)}
+            />
+          ))}
     </WhiteBlock>
   );
 };

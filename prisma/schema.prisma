@@ -129,8 +129,10 @@ model CartItem {
 // модель заказа в базе данных
 model Order {
   id          Int         @id @default(autoincrement())
+
   user        User?       @relation(fields: [userId], references: [id])
   userId      Int?
+
   token       String
   totalAmount Int
   status      OrderStatus
@@ -138,7 +140,7 @@ model Order {
   items       Json
 
   // кому предназначается заказ
-  fuulName String
+  fullName String
   address  String
   email    String
   phone    String

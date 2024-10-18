@@ -24,7 +24,9 @@ export const CheckoutSidebar: FC<Props> = ({ totalAmount, loading }) => {
           {loading ? (
             <Skeleton className='w-full h-11 rounded-[6px]' />
           ) : (
-            <span className='h-11 text-[32px] font-extrabold'>{totalPrice} р</span>
+            <span className='h-11 text-[32px] font-extrabold'>
+              {totalPrice} р
+            </span>
           )}
         </div>
 
@@ -75,6 +77,7 @@ export const CheckoutSidebar: FC<Props> = ({ totalAmount, loading }) => {
         />
 
         <Button
+          loading={loading}
           type='submit'
           className='w-full h-14 rounded-2xl mt-6 text-base font-bold'
         >

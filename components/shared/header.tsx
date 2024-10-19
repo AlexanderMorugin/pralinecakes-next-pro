@@ -1,3 +1,5 @@
+'use client';
+
 import { type FC } from 'react';
 import { cn } from '@/lib/utils';
 import { User } from 'lucide-react';
@@ -5,8 +7,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import Logo from '@/public/logo-120.png';
-import { CartButton, Container, SearchInput } from '.';
+import { CartButton, Container, ProfileButton, SearchInput } from '.';
 import { Button } from '../ui';
+import { useSession, signIn } from 'next-auth/react';
 
 interface Props {
   hasSearch?: boolean;
@@ -19,6 +22,10 @@ export const Header: FC<Props> = ({
   hasCart = true,
   className,
 }) => {
+  // const { data: session } = useSession();
+
+
+
   return (
     <header className={cn('border-b', className)}>
       <Container className='flex items-center justify-between py-8'>
@@ -40,10 +47,18 @@ export const Header: FC<Props> = ({
 
         {/** Правая часть */}
         <div className='flex items-center gap-3'>
-          <Button variant='outline' className='flex items-center gap-1'>
+          <ProfileButton />
+
+          {/* <Button
+            onClick={() =>
+              signIn('github', { callbackUrl: '/', redirect: true })
+            }
+            variant='outline'
+            className='flex items-center gap-1'
+          >
             <User size={16} />
             Войти
-          </Button>
+          </Button> */}
 
           {hasCart && <CartButton />}
         </div>

@@ -1,3 +1,13 @@
+
+import { getUserSession } from '@/lib/get-user-session';
+import { redirect } from 'next/navigation';
+
 export default async function ProfilePage() {
-  return <h1>PROFILE PAGE</h1>
+  const session = await getUserSession();
+
+  if (!session) {
+    return redirect('/not-auth');
+  }
+
+  return <h1>PROFILE PAGE</h1>;
 }

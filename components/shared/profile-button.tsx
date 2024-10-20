@@ -7,6 +7,7 @@ import { CircleUser, User } from 'lucide-react';
 import Link from 'next/link';
 
 interface Props {
+
   handleClickSignIn?: () => void;
 }
 

@@ -3,8 +3,10 @@
 import { PayOrderTemplate } from '@/components/shared';
 import { CheckoutFormValues } from '@/components/shared/checkout/checkout-form-schema';
 import { sendEmail } from '@/lib';
+import { getUserSession } from '@/lib/get-user-session';
 import { prisma } from '@/prisma/prisma-clients';
-import { OrderStatus } from '@prisma/client';
+import { OrderStatus, Prisma } from '@prisma/client';
+import { hashSync } from 'bcrypt';
 import { cookies } from 'next/headers';
 
 export async function createOrder(data: CheckoutFormValues) {
@@ -92,4 +94,36 @@ export async function createOrder(data: CheckoutFormValues) {
 
   // Временная ссылка, чтобы не использовать никакие платежные системы
   return 'http://localhost:3000/';
+}
+
+export async function updateUserInfo(body: Prisma.UserUpdateInput) {
+  try {
+    const currentUser = await getUserSession();
+
+    if (!currentUser) {
+      throw new Error('Пользователь не найден');
+    }
+
+    const findUser = await prisma.user.findFirst({
+      where: {
+        id: Number(currentUser.id),
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        id: Number(currentUser.id),
+      },
+      data: {
+        fullName: body.fullName,
+        email: body.email,
+        password: body.password
+          ? hashSync(body.password as string, 10)
+          : findUser?.password,
+      },
+    });
+  } catch (error) {
+    console.log('Error [UPDATE_USER_INFO] ', error);
+    throw error;
+  }
 }

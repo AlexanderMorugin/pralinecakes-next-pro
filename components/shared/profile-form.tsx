@@ -5,8 +5,7 @@ import { User } from '@prisma/client';
 import { type FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import {
-  formRegisterSchema,
-  TFormLoginValues,
+  formLoginShema,
   TFormRegisterValues,
 } from './modals/auth-modal/forms/schemas';
 import toast from 'react-hot-toast';
@@ -23,7 +22,7 @@ interface Props {
 
 export const ProfileForm: FC<Props> = ({ data }) => {
   const form = useForm({
-    resolver: zodResolver(formRegisterSchema),
+    resolver: zodResolver(formLoginShema),
     defaultValues: {
       fullNane: data.fullName,
       email: data.email,
@@ -36,7 +35,7 @@ export const ProfileForm: FC<Props> = ({ data }) => {
     try {
       await updateUserInfo({
         email: data.email,
-        fullName: data.fullname,
+        fullName: data.fullName,
         password: data.password,
       });
       toast.success('Данные успешно оновлены');

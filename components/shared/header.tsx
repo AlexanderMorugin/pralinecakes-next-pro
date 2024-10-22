@@ -1,11 +1,9 @@
 'use client';
 
-import { useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { cn } from '@/lib/utils';
-import { User } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-
 import Logo from '@/public/logo-120.png';
 import {
   AuthModal,
@@ -14,8 +12,8 @@ import {
   ProfileButton,
   SearchInput,
 } from '.';
-import { Button } from '../ui';
-import { useSession, signIn } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface Props {
   hasSearch?: boolean;
@@ -28,8 +26,24 @@ export const Header: FC<Props> = ({
   hasCart = true,
   className,
 }) => {
+  const router = useRouter()
   const [openAuthModal, setOpenAuthModal] = useState(false);
-  // const { data: session } = useSession();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    let toastMessage = '';
+
+    if (searchParams.has('verified')) {
+      toastMessage = 'Почта успешно подтверждена';
+    }
+
+    if (toastMessage) {
+      setTimeout(() => {
+        router.replace('/');
+        toast.success(toastMessage, { duration: 3000 });
+      }, 1000);
+    }
+  }, []);
 
   return (
     <header className={cn('border-b', className)}>

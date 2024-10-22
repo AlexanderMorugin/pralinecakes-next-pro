@@ -18,10 +18,13 @@ import {
 import { createOrder } from '@/app/actions';
 import toast from 'react-hot-toast';
 import { Fish, FishOff } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { Api } from '@/services/api-client';
 
 export default function CheckoutPage() {
   const [submiting, setSubmiting] = useState(false);
+  const { data: session } = useSession();
 
   const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
     useCart();
@@ -37,6 +40,22 @@ export default function CheckoutPage() {
       comment: '',
     },
   });
+
+  useEffect(() => {
+    async function fetchUserInfo() {
+      const data = await Api.auth.getMe();
+      const [firstName, lastName] = data.fullName.split(' ');
+
+      form.setValue('firstName', firstName);
+      form.setValue('lastName', lastName);
+      form.setValue('email', data.email);
+    }
+
+    if (session) {
+      fetchUserInfo();
+    }
+    
+  }, [session]);
 
   const onSubmit = async (data: CheckoutFormValues) => {
     try {

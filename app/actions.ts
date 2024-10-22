@@ -1,6 +1,9 @@
 'use server';
 
-import { PayOrderTemplate } from '@/components/shared';
+import {
+  PayOrderTemplate,
+  VerificationUserTemplate,
+} from '@/components/shared';
 import { CheckoutFormValues } from '@/components/shared/checkout/checkout-form-schema';
 import { sendEmail } from '@/lib';
 import { getUserSession } from '@/lib/get-user-session';
@@ -125,5 +128,51 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
   } catch (error) {
     console.log('Error [UPDATE_USER_INFO] ', error);
     throw error;
+  }
+}
+
+export async function registerUser(body: Prisma.UserCreateInput) {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: body.email,
+      },
+    });
+
+    if (user) {
+      if (!user.verified) {
+        throw new Error('Почта не подтверждена');
+      }
+
+      throw new Error('Пользователь уже существует');
+    }
+
+    const createdUser = await prisma.user.create({
+      data: {
+        fullName: body.fullName,
+        email: body.email,
+        password: hashSync(body.password, 10),
+      },
+    });
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await prisma.verificationCode.create({
+      data: {
+        code,
+        userId: createdUser.id,
+      },
+    });
+
+    await sendEmail(
+      createdUser.email,
+      'Next Praline / 📝 Подтверждение регистрации',
+      VerificationUserTemplate({
+        code,
+      }),
+    );
+  } catch (err) {
+    console.log('Error [CREATE_USER]', err);
+    throw err;
   }
 }

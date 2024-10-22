@@ -8,6 +8,7 @@ import { signIn } from 'next-auth/react';
 
 export const authOptions: AuthOptions = {
   providers: [
+    // TODO: GoogleProvider 
     GitHubProvider({
       clientId: process.env.GITHUB_ID || '',
       clientSecret: process.env.GITHUB_SECRET || '',

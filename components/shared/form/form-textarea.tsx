@@ -1,3 +1,5 @@
+'use client';
+
 import { InputHTMLAttributes, type FC } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { ClearButton, ErrorText, RequiredSymbol } from '..';
@@ -42,7 +44,12 @@ export const FormTextarea: FC<Props> = ({
       )}
 
       <div className='relative'>
-        <Textarea rows={rows} className='h-12 text-md' {...register(name)} {...props} />
+        <Textarea
+          rows={rows}
+          className='h-12 text-md'
+          {...register(name)}
+          {...props}
+        />
 
         {Boolean(text) && <ClearButton onClick={handleClearInput} />}
       </div>

@@ -1,10 +1,15 @@
 import { getUserSession } from '@/lib/get-user-session';
 import { prisma } from '@/prisma/prisma-clients';
 import { NextResponse } from 'next/server';
+import { authOptions } from '../[...nextauth]/route';
 
+export const dinamic = 'force-dinamic';
+
+// export async function GET(req: any, res: any) {
 export async function GET() {
   try {
     const user = await getUserSession();
+    // const user = await getUserSession(req, res, authOptions);
 
     if (!user) {
       return NextResponse.json(

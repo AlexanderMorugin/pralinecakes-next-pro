@@ -1,3 +1,5 @@
+'use client';
+
 import { InputHTMLAttributes, type FC } from 'react';
 import { ClearButton, ErrorText, RequiredSymbol } from '..';
 import { Input } from '@/components/ui';

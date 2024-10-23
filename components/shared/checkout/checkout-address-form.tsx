@@ -1,10 +1,7 @@
+'use client';
+
 import { type FC } from 'react';
-import {
-  AddressInput,
-  ErrorText,
-  FormTextarea,
-  WhiteBlock,
-} from '..';
+import { AddressInput, ErrorText, FormTextarea, WhiteBlock } from '..';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface Props {
@@ -22,10 +19,8 @@ export const CheckoutAddressForm: FC<Props> = ({ className }) => {
           name='address'
           render={({ field, fieldState }) => (
             <>
-        <AddressInput
-        onChange={field.onChange}
-        />
-        {fieldState.error && (
+              <AddressInput onChange={field.onChange} />
+              {fieldState.error && (
                 <ErrorText text={fieldState.error.message} />
               )}
             </>

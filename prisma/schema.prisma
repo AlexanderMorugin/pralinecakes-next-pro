@@ -166,7 +166,7 @@ model VerificationCode {
   @@unique([userId, code])
 }
 
-// модель истории
+// модель группы историй
 model Story {
   id Int @id @default(autoincrement())
 
@@ -177,7 +177,7 @@ model Story {
   createdAt DateTime @default(now())
 }
 
-// модель историй входящих в историю
+// модель одной истории входящей в группу историй
 model StoryItem {
   id Int @id @default(autoincrement())
 
